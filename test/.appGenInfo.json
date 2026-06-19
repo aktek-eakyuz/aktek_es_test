@@ -1,0 +1,29 @@
+{
+  "generationParameters": {
+    "generationDate": "Fri Jun 19 2026 14:25:19 GMT+0300 (GMT+03:00)",
+    "generatorPlatform": "Visual Studio Code",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "http://vhmzfakdci.sap.akkok.com:8000/sap/opu/odata4/aktek/es_ui_outgoing_o4/srvd/aktek/es_ui_outgoing/0001/",
+    "appName": "test",
+    "appTitle": "Outboundtest",
+    "appDescription": "E-Invoice & E-Despatch Outbound",
+    "appNamespace": "com.aktek",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.136.0",
+    "enableEslint": true,
+    "enableTypeScript": true,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.23.0",
+    "template": "List Report Page V4",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [
+      {
+        "type": "Main Entity",
+        "value": "Outgoing"
+      }
+    ],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```",
+    "valueHelpDownloaded": true
+  }
+}
