@@ -70,7 +70,13 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "com.aktek.test.i18n.i18n"
+          "bundleName": "com.aktek.test.i18n.i18n",
+          "supportedLocales": [
+            "en",
+            "tr",
+            ""
+          ],
+          "fallbackLocale": "en"
         }
       },
       "": {

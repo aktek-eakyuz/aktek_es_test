@@ -6,6 +6,7 @@ import MessageBox from 'sap/m/MessageBox';
 import Fragment from "sap/ui/core/Fragment";
 import Dialog from "sap/m/Dialog";
 import JSONModel from "sap/ui/model/json/JSONModel";
+import ResourceModel from "sap/ui/model/resource/ResourceModel";
 /**
 * Generated event handler.
 *
@@ -53,6 +54,14 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
 
         const oResultModel = new JSONModel({ messages: aMessages });
 
+        const oI18nModel = new ResourceModel({
+            bundleName: "com.aktek.test.i18n.i18n",
+            supportedLocales: ["en", "tr", ""],
+            fallbackLocale: "en"
+        });
+
+
+
         if (!_oDialog) {
             _oDialog = (await Fragment.load({
                 name: "com.aktek.test.ext.fragment.SendResultDialog",
@@ -62,6 +71,11 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
 
         _oDialog.setModel(oResultModel, "results");
         _oDialog.open();
+        _oDialog.setModel(oI18nModel, "i18n");
+
+        for (const ctx of selectedContexts) {
+            ctx.refresh();
+        }
         if (aMessages.length > 1) {
 
         } else {

@@ -3,7 +3,7 @@
     xmlns:core="sap.ui.core">
     <Dialog
         id="sendResultDialog"
-        title="Gönderim Sonuçları"
+        title="{i18n>sendResultDialog.title}"
         contentWidth="40rem"
         resizable="true">
         <Table
@@ -14,10 +14,10 @@
                     <Label text="" />
                 </Column>
                 <Column width="12rem">
-                    <Label text="ID" />
+                    <Label text="{i18n>sendResultDialog.columnId}" />
                 </Column>
                 <Column>
-                    <Label text="Mesaj" />
+                    <Label text="{i18n>sendResultDialog.columnMessage}" />
                 </Column>
             </columns>
             <items>
@@ -33,7 +33,7 @@
             </items>
         </Table>
         <endButton>
-            <Button text="Kapat" press=".onCloseResultDialog" />
+            <Button text="{i18n>sendResultDialog.closeButton}" press=".onCloseResultDialog" />
         </endButton>
     </Dialog>
 </core:FragmentDefinition>
