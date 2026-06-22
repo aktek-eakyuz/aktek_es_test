@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        id="sendResultDialog"
+        title="Gönderim Sonuçları"
+        contentWidth="40rem"
+        resizable="true">
+        <Table
+            id="resultTable"
+            items="{results>/messages}">
+            <columns>
+                <Column width="3rem">
+                    <Label text="" />
+                </Column>
+                <Column width="12rem">
+                    <Label text="ID" />
+                </Column>
+                <Column>
+                    <Label text="Mesaj" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <core:Icon
+                            src="{= ${results>severity} >= 4 ? 'sap-icon://error' : 'sap-icon://sys-enter-2'}"
+                            color="{= ${results>severity} >= 4 ? '#bb0000' : '#2b7c2b'}" />
+                        <Text text="{results>id}" />
+                        <Text text="{results>message}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+        <endButton>
+            <Button text="Kapat" press=".onCloseResultDialog" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
