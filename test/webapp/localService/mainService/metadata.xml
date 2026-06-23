@@ -788,6 +788,9 @@
                             <PropertyValue Property="Value" Path="Exstatus"/>
                         </Record>
                         <Record Type="SAP__UI.DataField">
+                            <PropertyValue Property="Value" Path="Step"/>
+                        </Record>
+                        <Record Type="SAP__UI.DataField">
                             <PropertyValue Property="Label" String="SD Document"/>
                             <PropertyValue Property="Value" Path="Vbeln"/>
                         </Record>

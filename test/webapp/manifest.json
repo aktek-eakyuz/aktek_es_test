@@ -62,6 +62,15 @@
         "sap.fe.templates": {}
       }
     },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "com.aktek.test.ext.controller.ListReporExt"
+          }
+        }
+      }
+    },
     "contentDensities": {
       "compact": true,
       "cozy": true
@@ -135,7 +144,7 @@
                     "OutgoingListExtension": {
                       "press": "com.aktek.test.ext.controller.OutgoingListExtension.onSendAction",
                       "visible": true,
-                      "enabled": true,
+                      "enabled": "{buttonState>/sendEnabled}",
                       "requiresSelection": true,
                       "text": "{i18n>btnSend}"
                     },

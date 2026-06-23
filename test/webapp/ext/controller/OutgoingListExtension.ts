@@ -27,7 +27,7 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
 
     const aMessages: { id: string; message: string; severity: number }[] = [];
 
-    const oModel = (this as any).getModel() as ODataModel;
+    const oModel = this.getModel() as ODataModel;
 
     BusyIndicator.show(0);
     for (const ctx of selectedContexts) {
@@ -52,7 +52,6 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
         } catch (oError: any) {
             aMessages.push({ id: sId, message: oError.message || "Bilinmeyen hata", severity: 4 });
         }
-
 
         const oResultModel = new JSONModel({ messages: aMessages });
 
@@ -83,10 +82,6 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
         } else {
             // MessageBox.()
         }
-
-
-
-
 
     }
 }
