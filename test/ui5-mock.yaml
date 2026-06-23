@@ -19,6 +19,7 @@ server:
           - path: /sap
             url: http://vhmzfakdci.sap.akkok.com:8000
             client: '050'
+            authenticationType: basic
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

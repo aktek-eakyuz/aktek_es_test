@@ -96,6 +96,9 @@
                 <Property Name="Filename" Type="Edm.String" Nullable="false" MaxLength="128"/>
                 <Property Name="MimeType" Type="Edm.String" Nullable="false" MaxLength="128"/>
                 <Property Name="StatusCriticality" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="StatusText" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="ExStatusCriticality" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="ExtStatusText" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false"/>
                 <Property Name="DraftEntityCreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
                 <Property Name="DraftEntityLastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
@@ -129,6 +132,17 @@
                 <Property Name="CreatedByUserDescription" Type="Edm.String" Nullable="false" MaxLength="80"/>
                 <Property Name="LastChangedByUserDescription" Type="Edm.String" Nullable="false" MaxLength="80"/>
                 <Property Name="InProcessByUserDescription" Type="Edm.String" Nullable="false" MaxLength="80"/>
+            </EntityType>
+            <EntityType Name="FilePreviewType">
+                <Key>
+                    <PropertyRef Name="db_key"/>
+                    <PropertyRef Name="file_key"/>
+                </Key>
+                <Property Name="db_key" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="file_key" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="FileName" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="MimeType" Type="Edm.String" Nullable="false" MaxLength="128"/>
+                <Property Name="FileContent" Type="Edm.Stream"/>
             </EntityType>
             <ComplexType Name="OutgoingOperationControl">
                 <Property Name="check_schematron" Type="Edm.Boolean" Nullable="false"/>
@@ -202,6 +216,7 @@
                 <ReturnType Type="com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.OutgoingType" Nullable="false"/>
             </Action>
             <EntityContainer Name="Container">
+                <EntitySet Name="FilePreview" EntityType="com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.FilePreviewType"/>
                 <EntitySet Name="I_DraftAdministrativeData" EntityType="com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.I_DraftAdministrativeDataType"/>
                 <EntitySet Name="Outgoing" EntityType="com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.OutgoingType">
                     <NavigationPropertyBinding Path="DraftAdministrativeData" Target="I_DraftAdministrativeData"/>
@@ -215,10 +230,12 @@
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Direct">
+                <Annotation Term="SAP__common.Label" String="Direct"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Ubltyp">
+                <Annotation Term="SAP__common.Label" String="UBL Type"/>
                 <Annotation Term="SAP__core.Computed"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Bukrs">
@@ -258,6 +275,7 @@
                 <Annotation Term="SAP__common.DocumentationRef" String="urn:sap-com:documentation:key?=type=DE&amp;id=LIFNR"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Sndtax">
+                <Annotation Term="SAP__common.Label" String="Sender Tax No"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
@@ -274,6 +292,7 @@
                 <Annotation Term="SAP__common.DocumentationRef" String="urn:sap-com:documentation:key?=type=DE&amp;id=NAME1_GP"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Rcvtax">
+                <Annotation Term="SAP__common.Label" String="Receive Tax No"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
@@ -290,6 +309,7 @@
                 <Annotation Term="SAP__common.DocumentationRef" String="urn:sap-com:documentation:key?=type=DE&amp;id=NAME1_GP"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Solution">
+                <Annotation Term="SAP__common.Label" String="Solution"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
@@ -302,6 +322,7 @@
                 <Annotation Term="SAP__core.Computed"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Id">
+                <Annotation Term="SAP__common.Label" String="ID"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
@@ -316,25 +337,37 @@
                 <Annotation Term="SAP__common.Label" String="ProfileID"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Typeid">
+                <Annotation Term="SAP__common.Label" String="Document Type"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Abname">
+                <Annotation Term="SAP__common.Label" String="Document Type"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Step">
+                <Annotation Term="SAP__common.Label" String="Step"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Status">
+                <Annotation Term="SAP__common.Label" String="Status"/>
+                <Annotation Term="SAP__common.Text" Path="StatusText">
+                    <Annotation Term="SAP__UI.TextArrangement" EnumMember="SAP__UI.TextArrangementType/TextOnly"/>
+                </Annotation>
                 <Annotation Term="SAP__core.Computed"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Exstatus">
+                <Annotation Term="SAP__common.Label" String="Integrator Status"/>
+                <Annotation Term="SAP__common.Text" Path="ExtStatusText">
+                    <Annotation Term="SAP__UI.TextArrangement" EnumMember="SAP__UI.TextArrangementType/TextOnly"/>
+                </Annotation>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Exmsg">
+                <Annotation Term="SAP__common.Label" String="Message Info"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
@@ -357,6 +390,7 @@
                 <Annotation Term="SAP__common.QuickInfo" String="Truth Value: True/False"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/Kappl">
+                <Annotation Term="SAP__common.Label" String="Application"/>
                 <Annotation Term="SAP__core.Computed"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
@@ -750,7 +784,7 @@
                         </Record>
                         <Record Type="SAP__UI.DataField">
                             <PropertyValue Property="Label" String="Ext. Status"/>
-                            <PropertyValue Property="Criticality" Path="StatusCriticality"/>
+                            <PropertyValue Property="Criticality" Path="ExStatusCriticality"/>
                             <PropertyValue Property="Value" Path="Exstatus"/>
                         </Record>
                         <Record Type="SAP__UI.DataField">
@@ -828,11 +862,26 @@
                         <String>application/zip</String>
                     </Collection>
                 </Annotation>
+                <Annotation Term="SAP__common.Label" String="File Content"/>
+                <Annotation Term="SAP__UI.HiddenFilter"/>
+            </Annotations>
+            <Annotations Target="SAP__self.OutgoingType/Filename">
+                <Annotation Term="SAP__common.Label" String="File Name"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/MimeType">
                 <Annotation Term="SAP__core.IsMediaType"/>
+                <Annotation Term="SAP__common.Label" String="File Type"/>
                 <Annotation Term="SAP__UI.HiddenFilter"/>
+            </Annotations>
+            <Annotations Target="SAP__self.OutgoingType/StatusCriticality">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.HiddenFilter"/>
+                <Annotation Term="SAP__common.Label" String="Statu Light"/>
+            </Annotations>
+            <Annotations Target="SAP__self.OutgoingType/ExStatusCriticality">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Statu Light"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingType/HasDraftEntity">
                 <Annotation Term="SAP__core.Computed"/>
@@ -1087,6 +1136,47 @@
                     </Record>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.FilePreviewType/MimeType">
+                <Annotation Term="SAP__core.IsMediaType"/>
+            </Annotations>
+            <Annotations Target="SAP__self.FilePreviewType/FileContent">
+                <Annotation Term="SAP__core.ContentDisposition">
+                    <Record>
+                        <PropertyValue Property="Filename" Path="FileName"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.MediaType" Path="MimeType"/>
+            </Annotations>
+            <Annotations Target="SAP__self.FilePreviewType">
+                <Annotation Term="SAP__common.Label" String="Custom Entity for file contents"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/FilePreview">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.Container">
                 <Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
                 <Annotation Term="SAP__UI.LeadingEntitySet" String="Outgoing"/>
@@ -1143,12 +1233,6 @@
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
-            <Annotations Target="SAP__self.OutgoingType/Filename">
-                <Annotation Term="SAP__UI.HiddenFilter"/>
-            </Annotations>
-            <Annotations Target="SAP__self.OutgoingType/StatusCriticality">
-                <Annotation Term="SAP__UI.HiddenFilter"/>
-            </Annotations>
             <Annotations Target="SAP__self.I_DraftAdministrativeDataType/DraftUUID">
                 <Annotation Term="SAP__UI.Hidden"/>
                 <Annotation Term="SAP__common.Label" String="Draft (Technical ID)"/>
@@ -1189,11 +1273,21 @@
                 <Annotation Term="SAP__UI.Hidden"/>
                 <Annotation Term="SAP__common.Label" String="Draft In Process By (Description)"/>
             </Annotations>
+            <Annotations Target="SAP__self.OutgoingType/StatusText">
+                <Annotation Term="SAP__common.Label" String="Text"/>
+            </Annotations>
+            <Annotations Target="SAP__self.OutgoingType/ExtStatusText">
+                <Annotation Term="SAP__common.Label" String="Text"/>
+            </Annotations>
             <Annotations Target="SAP__self.I_DraftAdministrativeDataType/CreationDateTime">
                 <Annotation Term="SAP__common.Label" String="Draft Created On"/>
             </Annotations>
             <Annotations Target="SAP__self.I_DraftAdministrativeDataType/LastChangeDateTime">
                 <Annotation Term="SAP__common.Label" String="Draft Last Changed On"/>
+            </Annotations>
+            <Annotations Target="SAP__self.FilePreviewType/db_key">
+                <Annotation Term="SAP__common.Label" String="UUID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.OutgoingOperationControl/check_schematron">
                 <Annotation Term="SAP__common.Label" String="Dyn. Action Control"/>

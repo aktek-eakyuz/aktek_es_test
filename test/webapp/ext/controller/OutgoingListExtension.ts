@@ -7,6 +7,7 @@ import Fragment from "sap/ui/core/Fragment";
 import Dialog from "sap/m/Dialog";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import ResourceModel from "sap/ui/model/resource/ResourceModel";
+import BusyIndicator from "sap/ui/core/BusyIndicator";
 /**
 * Generated event handler.
 *
@@ -28,6 +29,7 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
 
     const oModel = (this as any).getModel() as ODataModel;
 
+    BusyIndicator.show(0);
     for (const ctx of selectedContexts) {
 
         const sId = ctx.getProperty("Id") as string;
@@ -61,7 +63,7 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
         });
 
 
-
+        BusyIndicator.hide();
         if (!_oDialog) {
             _oDialog = (await Fragment.load({
                 name: "com.aktek.test.ext.fragment.SendResultDialog",
@@ -88,3 +90,5 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
 
     }
 }
+
+

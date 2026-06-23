@@ -137,7 +137,14 @@
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "Send"
+                      "text": "{i18n>btnSend}"
+                    },
+                    "OutgoingList": {
+                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayXmlClicked",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "Display XML"
                     }
                   }
                 }
@@ -152,7 +159,20 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Outgoing"
+              "contextPath": "/Outgoing",
+              "content": {
+                "header": {
+                  "actions": {
+                    "OutGoingListExtenSion": {
+                      "press": "com.aktek.test.ext.controller.OutGoingListExtenSion.onSendAction",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "{i18n>btnSend}"
+                    }
+                  }
+                }
+              }
             }
           }
         }
