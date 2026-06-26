@@ -2,6 +2,8 @@ import ExtensionAPI from 'sap/fe/core/ExtensionAPI';
 import Context from 'sap/ui/model/odata/v4/Context';
 import MessageToast from 'sap/m/MessageToast';
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import MessageBox from 'sap/m/MessageBox';
+import BusyIndicator from "sap/ui/core/BusyIndicator";
 /**
  * Generated event handler.
  *
@@ -31,18 +33,8 @@ export async function onDisplayXmlClicked(this: ExtensionAPI, context: Context |
     if (!data.DbKey) {
 
         console.error("Program Error DB KEY not found");
+        return;
     }
-    // //  var sCustomEntityUrl = sServiceUrl +
-    // //                         "FilePreview(db_key=" + data.DbKey +
-    // //                         ",FileName='data.xml')/FileContent/$value";
-    //  var sCustomEntityUrl = sServiceUrl + 
-    //                         "FilePreview(db_key=" + data.DbKey+")/$value";
-
-    // //  const newctx = oModel.bindContext(sCustomEntityUrl);
-    // const newctx = oModel.bindContext("/FilePreview(db_key=" + data.DbKey + ")");
-    //  const response = await newctx.requestObject();
-    //  const respons_data = response.getObject();
-    //  window.open(sCustomEntityUrl, "_blank");
 
 
     sServiceUrl = oModel.getServiceUrl();
@@ -50,9 +42,40 @@ export async function onDisplayXmlClicked(this: ExtensionAPI, context: Context |
         sServiceUrl = new URL(sServiceUrl, window.location.href).pathname;
     }
 
-    // const sUrl = sServiceUrl + "FilePreview(db_key=" + data.DbKey + ")/FileContent";
     const sUrl = sServiceUrl + "FilePreview(db_key=" + data.DbKey + ",file_key='xml')/FileContent";
     console.log("Stream URL:", sUrl);
-    window.open(sUrl, "_blank");
+    // window.open(sUrl, "_blank");
 
+
+    // try {
+    //     const response = await fetch(sUrl);
+    //     const sHtml = await response.text();
+
+    //     const oWindow = window.open("", "_blank");
+    //     if (oWindow) {
+    //         oWindow.document.open();
+    //         oWindow.document.write(sHtml);
+    //         oWindow.document.close();
+    //     }
+    // } catch (err: any) {
+    //     MessageBox.error(err.message || "İçerik alınamadı.");
+    // }
+
+    
+    try {
+         BusyIndicator.show(0);
+        const response = await fetch(sUrl);
+        const sHtml = await response.text();
+
+        
+        const blob = new Blob([sHtml], { type: "text/html" });
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, "_blank");
+        BusyIndicator.hide();
+        // Memory leak önleme
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+    } catch (err: any) {
+        BusyIndicator.hide();
+        MessageBox.error(err.message || "İçerik alınamadı.");
+    }
 }

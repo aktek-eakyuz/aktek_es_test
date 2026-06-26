@@ -16,20 +16,11 @@
       "toolsId": "e5d411b5-a272-4b8d-b6c7-61e47b02476b"
     },
     "dataSources": {
-      "annotation": {
-        "type": "ODataAnnotation",
-        "uri": "annotations/annotation.xml",
-        "settings": {
-          "localUri": "annotations/annotation.xml"
-        }
-      },
       "mainService": {
         "uri": "/sap/opu/odata4/aktek/es_ui_outgoing_o4/srvd/aktek/es_ui_outgoing/0001/",
         "type": "OData",
         "settings": {
-          "annotations": [
-            "annotation"
-          ],
+          "annotations": [],
           "localUri": "localService/mainService/metadata.xml",
           "odataVersion": "4.0"
         }
@@ -173,9 +164,9 @@
                 "header": {
                   "actions": {
                     "OutGoingListExtenSion": {
-                      "press": "com.aktek.test.ext.controller.OutGoingListExtenSion.onSendAction",
+                      "press": "com.aktek.test.ext.controller.OutgoingListExtenSion.onSendAction",
                       "visible": true,
-                      "enabled": true,
+                      "enabled": "{= %{__OperationControl/send} === true }",
                       "requiresSelection": false,
                       "text": "{i18n>btnSend}"
                     }

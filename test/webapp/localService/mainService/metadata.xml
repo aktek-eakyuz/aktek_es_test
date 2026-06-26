@@ -703,6 +703,12 @@
                             <PropertyValue Property="Action" String="com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.regenerate_xml(com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.OutgoingType)"/>
                             <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated"/>
                         </Record>
+                        <Record Type="SAP__UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Send"/>
+                            <PropertyValue Property="Action" String="com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.send(com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.OutgoingType)"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="SAP__UI.OperationGroupingType/Isolated"/>
+                            <Annotation Term="SAP__UI.Hidden"/>
+                        </Record>
                     </Collection>
                 </Annotation>
                 <Annotation Term="SAP__UI.LineItem">
@@ -1011,6 +1017,15 @@
             </Annotations>
             <Annotations Target="SAP__self.get_serial_number(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/get_serial_number"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_get_serial_number">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.regenerate_xml(SAP__self.OutgoingType)/id">
                 <Annotation Term="SAP__common.Label" String="Serial Number"/>
@@ -1025,6 +1040,15 @@
             </Annotations>
             <Annotations Target="SAP__self.regenerate_xml(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/regenerate_xml"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_regenerate_xml">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.Edit(SAP__self.OutgoingType)/PreserveChanges">
                 <Annotation Term="SAP__common.IsUpperCase"/>
@@ -1036,18 +1060,63 @@
             </Annotations>
             <Annotations Target="SAP__self.check_statu(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/check_statu"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_check_statu">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.earchive_cancel(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/earchive_cancel"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_earchive_cancel">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.check_schematron(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/check_schematron"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_check_schematron">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.send(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/send"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_send">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.kep_cancel(SAP__self.OutgoingType)">
                 <Annotation Term="SAP__core.OperationAvailable" Path="_it/__OperationControl/kep_cancel"/>
+                <Annotation Term="SAP__common.SideEffects" Qualifier="SAP__Action_kep_cancel">
+                    <Record Type="SAP__common.SideEffectsType">
+                        <PropertyValue Property="TargetEntities">
+                            <Collection>
+                                <NavigationPropertyPath/>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.I_DraftAdministrativeDataType/DraftEntityType">
                 <Annotation Term="SAP__common.IsUpperCase"/>

@@ -84,6 +84,19 @@ export async function onSendAction(this: ExtensionAPI, context: Context | undefi
         }
 
     }
+
+
+}
+
+
+
+export  function isSendEnabled(oBindingContext: Context, aSelectedContexts: Context[]): boolean {
+    debugger;
+    if (!aSelectedContexts || aSelectedContexts.length !== 1) {
+        return false;
+    }
+    const a = aSelectedContexts[0].getProperty("Step");
+    return Number(aSelectedContexts[0].getProperty("Step")) === 2;
 }
 
 
