@@ -144,7 +144,14 @@
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "Display XML"
+                      "text": "{i18n>btnXml}"
+                    },
+                    "DisplayPDF": {
+                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayPDF",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": true,
+                      "text": "{i18n>btnPdf}"
                     }
                   }
                 }
@@ -169,6 +176,20 @@
                       "enabled": "{= %{__OperationControl/send} === true }",
                       "requiresSelection": false,
                       "text": "{i18n>btnSend}"
+                    },
+                    "OutgoingList": {
+                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayXmlClicked",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "{i18n>btnXml}"
+                    },
+                    "DisplayPDF": {
+                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayPDF",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "{i18n>btnPdf}"
                     }
                   }
                 }
