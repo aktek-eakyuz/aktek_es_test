@@ -1,28 +1,26 @@
 import ControllerExtension from "sap/ui/core/mvc/ControllerExtension";
 import JSONModel from "sap/ui/model/json/JSONModel";
-import Event from "sap/ui/base/Event";
 import Table from "sap/m/Table";
-import EditFlow from "sap/fe/core/controllerextensions/EditFlow";
-import MessageBox from "sap/m/MessageBox";
-export default class ListReporExt extends ControllerExtension {
+
+export default class ListReportExt extends ControllerExtension {
     static override readonly overrides = {
-        onInit(this: ListReporExt) {
+        onInit(this: ListReportExt) {
 
             const oButtonStateModel = new JSONModel({
                 sendEnabled: false
             });
-
+            
             (this as any).getView().setModel(oButtonStateModel, "buttonState");
         },
         editFlow: {
-            onAfterActionExecution(this:ListReporExt){
+            onAfterActionExecution(this:ListReportExt){
 
                 console.log("action execution completed");
             }
         },
 
         routing: {
-            onAfterBinding(this: ListReporExt) {
+            onAfterBinding(this: ListReportExt) {
                 setTimeout(() => {
                     const oTable = _findTable(this);
 
@@ -119,3 +117,8 @@ function _updateSendButton(ctrl: any, oTable: Table): void {
     // En az bir Step=3 varsa enable
     oModel.setProperty("/sendEnabled", bHasStep3);
 }
+
+
+
+
+

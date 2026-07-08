@@ -57,7 +57,7 @@
       "extensions": {
         "sap.ui.controllerExtensions": {
           "sap.fe.templates.ListReport.ListReportController": {
-            "controllerName": "com.aktek.test.ext.controller.ListReporExt"
+            "controllerName": "com.aktek.test.ext.controller.ListReportExt"
           }
         }
       }
@@ -133,21 +133,21 @@
                   },
                   "actions": {
                     "OutgoingListExtension": {
-                      "press": "com.aktek.test.ext.controller.OutgoingListExtension.onSendAction",
+                      "press": "com.aktek.test.ext.controller.CustomActionExt.onSendAction",
                       "visible": true,
                       "enabled": "{buttonState>/sendEnabled}",
                       "requiresSelection": true,
                       "text": "{i18n>btnSend}"
                     },
                     "OutgoingList": {
-                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayXmlClicked",
+                      "press": "com.aktek.test.ext.controller.CustomActionExt.onDisplayXmlClicked",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
                       "text": "{i18n>btnXml}"
                     },
                     "DisplayPDF": {
-                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayPDF",
+                      "press": "com.aktek.test.ext.controller.CustomActionExt.onDisplayPDF",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
@@ -171,21 +171,21 @@
                 "header": {
                   "actions": {
                     "OutGoingListExtenSion": {
-                      "press": "com.aktek.test.ext.controller.OutgoingListExtenSion.onSendAction",
+                      "press": "com.aktek.test.ext.controller.CustomActionExt.onSendAction",
                       "visible": true,
                       "enabled": "{= %{__OperationControl/send} === true }",
                       "requiresSelection": false,
                       "text": "{i18n>btnSend}"
                     },
                     "OutgoingList": {
-                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayXmlClicked",
+                      "press": "com.aktek.test.ext.controller.CustomActionExt.onDisplayXmlClicked",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": false,
                       "text": "{i18n>btnXml}"
                     },
                     "DisplayPDF": {
-                      "press": "com.aktek.test.ext.controller.OutgoingList.onDisplayPDF",
+                      "press": "com.aktek.test.ext.controller.CustomActionExt.onDisplayPDF",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": false,

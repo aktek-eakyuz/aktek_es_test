@@ -1,23 +1,17 @@
-import ExtensionAPI from 'sap/fe/core/ExtensionAPI';
-import Context from 'sap/ui/model/odata/v4/Context';
-import MessageToast from 'sap/m/MessageToast';
-import ODataModel from "sap/ui/model/odata/v4/ODataModel";
-import MessageBox from 'sap/m/MessageBox';
+import JSONModel from "sap/ui/model/json/JSONModel";
+import MessageBox from "sap/m/MessageBox";
 import BusyIndicator from "sap/ui/core/BusyIndicator";
-import ResourceBundle from "sap/base/i18n/ResourceBundle";
+import ExtensionAPI from "sap/fe/core/ExtensionAPI";
+import Context from "sap/ui/model/odata/v4/Context";
+import MessageToast from "sap/m/MessageToast";
+import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import HTML from "sap/ui/core/HTML";
+import Dialog from "sap/m/Dialog";
+import Button from "sap/m/Button";
 import ResourceModel from "sap/ui/model/resource/ResourceModel";
-import PDFViewer from 'sap/m/PDFViewer';
-import Dialog from 'sap/m/Dialog';
-import HTML from 'sap/ui/core/HTML';
-import Button from 'sap/m/Button';
-import busydialog from 'sap/ca/ui/utils/busydialog';
-/**
- * Generated event handler.
- *
- * @param this reference to the 'this' that the event handler is bound to.
- * @param context the context of the page on which the event was fired. `undefined` for list report page.
- * @param selectedContexts the selected contexts of the table rows.
- */
+import ResourceBundle from "sap/base/i18n/ResourceBundle";
+import Fragment from "sap/ui/core/Fragment";
+
 export async function onDisplayXmlClicked(this: ExtensionAPI, context: Context | undefined, selectedContexts: Context[]) {
     console.log("DisplayXML triggered");
 
@@ -51,24 +45,7 @@ export async function onDisplayXmlClicked(this: ExtensionAPI, context: Context |
 
     const sUrl = sServiceUrl + "FilePreview(db_key=" + data.DbKey + ",file_key='xml')/FileContent";
     console.log("Stream URL:", sUrl);
-    // window.open(sUrl, "_blank");
-
-
-    // try {
-    //     const response = await fetch(sUrl);
-    //     const sHtml = await response.text();
-
-    //     const oWindow = window.open("", "_blank");
-    //     if (oWindow) {
-    //         oWindow.document.open();
-    //         oWindow.document.write(sHtml);
-    //         oWindow.document.close();
-    //     }
-    // } catch (err: any) {
-    //     MessageBox.error(err.message || "İçerik alınamadı.");
-    // }
-
-
+ 
     try {
         BusyIndicator.show(0);
         const response = await fetch(sUrl);
@@ -86,6 +63,9 @@ export async function onDisplayXmlClicked(this: ExtensionAPI, context: Context |
         MessageBox.error(err.message || "İçerik alınamadı.");
     }
 }
+
+
+
 
 /**
 * Generated event handler.
@@ -132,32 +112,6 @@ export async function onDisplayPDF(this: ExtensionAPI, context: Context | undefi
 
     try {
 
-        // const oBindingContext = oModel.bindContext(sUrl);
-        // const oObject = await oBindingContext.requestObject();
-
-
-        // // const response = await fetch(sUrl);
-        // // const pdfContent = await response.text();
-        // BusyIndicator.hide();
-
-        // // // // let sServiceUrl = oModel.getServiceUrl();
-        // // // // if (sServiceUrl.startsWith("..")) {
-        // // // //     sServiceUrl = new URL(sServiceUrl, window.location.href).pathname;
-        // // // // }
-        // // // // sUrl = sServiceUrl + "FilePreview(db_key=" + data.DbKey + ",file_key='pdf')/FileContent";
-
-        // // // // const oPDFViewer = new PDFViewer({
-        // // // //     source: sUrl,
-        // // // //     title: data.Uuid ?? "PDF",
-        // // // //     displayType: 'Auto'
-
-        // // // // });
-        // // // // oPDFViewer.open();
-
-
-
-        //   BusyIndicator.show(0);
-
         const oResponse = await fetch(sUrl, { headers: { "Accept": "application/pdf" } });
         if (!oResponse.ok) {
             BusyIndicator.hide();
@@ -170,15 +124,6 @@ export async function onDisplayPDF(this: ExtensionAPI, context: Context | undefi
             }
             throw new Error(sMsg);
         }
-        // const oBlob = await oResponse.blob();
-        // const sBlobUrl = window.URL.createObjectURL(oBlob);
-
-        // const oPDFViewer = new PDFViewer({
-        //     source: sBlobUrl,
-        //     title: data.FileName ?? "PDF"
-        // });
-        // oPDFViewer.open();
-
         const oBlob = new Blob([await oResponse.arrayBuffer()], { type: "application/pdf" });
         const sBlobUrl = window.URL.createObjectURL(oBlob);
 
@@ -211,5 +156,78 @@ export async function onDisplayPDF(this: ExtensionAPI, context: Context | undefi
         BusyIndicator.hide();
         MessageBox.error(err.message || "İçerik alınamadı.");
     }
+
+}
+
+
+let _oDialog: Dialog;
+export async function onSendAction(this: ExtensionAPI, context: Context | undefined, selectedContexts: Context[]) {
+    console.log("Send triggered");
+
+    if (!selectedContexts || selectedContexts.length === 0) {
+        MessageToast.show("Lütfen bir satır seçin.");
+        return;
+    }
+
+    const aMessages: { id: string; message: string; severity: number }[] = [];
+
+    const oModel = this.getModel() as ODataModel;
+
+    BusyIndicator.show(0);
+    for (const ctx of selectedContexts) {
+
+        const sId = ctx.getProperty("Id") as string;
+
+        const oBindingContext = oModel.bindContext(
+            `${ctx.getPath()}/com.sap.gateway.srvd.aktek.es_ui_outgoing.v0001.send(...)`
+        );
+
+        try {
+            await oBindingContext.invoke();
+            const oBoundContext = oBindingContext.getBoundContext();
+            const oData = oBoundContext.getObject() as any;
+            oData.SAP__Messages.forEach((msg: any) => {
+                aMessages.push({
+                    id: sId,
+                    message: msg.message,
+                    severity: msg.numericSeverity
+                });
+            });
+        } catch (oError: any) {
+            aMessages.push({ id: sId, message: oError.message || "Bilinmeyen hata", severity: 4 });
+        }
+
+        const oResultModel = new JSONModel({ messages: aMessages });
+
+        const oI18nModel = new ResourceModel({
+            bundleName: "com.aktek.test.i18n.i18n",
+            supportedLocales: ["en", "tr", ""],
+            fallbackLocale: "en"
+        });
+
+
+        BusyIndicator.hide();
+        if (!_oDialog) {
+            _oDialog = (await Fragment.load({
+                name: "com.aktek.test.ext.fragment.SendResultDialog",
+                controller: { onCloseResultDialog: () => { _oDialog.close(); } }
+            })) as Dialog;
+        }
+
+        _oDialog.setModel(oResultModel, "results");
+        _oDialog.open();
+        _oDialog.setModel(oI18nModel, "i18n");
+
+        for (const ctx of selectedContexts) {
+            ctx.refresh();
+        }
+        if (aMessages.length > 1) {
+
+        } else {
+            // MessageBox.()
+        }
+
+    }
+
 
 }
